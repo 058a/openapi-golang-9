@@ -1,0 +1,10 @@
+mode: set
+openapi/internal/app/stock/item/create.go:25.73,28.16 2 1
+openapi/internal/app/stock/item/create.go:28.16,30.3 1 1
+openapi/internal/app/stock/item/create.go:32.2,33.16 2 1
+openapi/internal/app/stock/item/create.go:33.16,35.3 1 1
+openapi/internal/app/stock/item/create.go:38.2,41.8 1 1
+openapi/internal/app/stock/item/create.go:44.51,48.2 1 1
+openapi/internal/app/stock/item/create.go:50.76,55.34 2 1
+openapi/internal/app/stock/item/create.go:55.34,57.3 1 1
+openapi/internal/app/stock/item/create.go:60.2,61.17 2 1

@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: Stock Item API
+  version: 1.0.0
+  description: Stock Item API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:1323
+paths:
+  /stock/items:
+    post:
+      tags: ["Stock Item"]
+      summary: Create Stock Item
+      description: Create Stock Item
+      operationId: PostStockItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewStockItem"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /stock/items/{stockItemId}:
+    put:
+      tags: ["Stock Item"]
+      summary: Update Stock Item
+      description: Update Stock Item
+      operationId: PutStockItem
+      parameters:
+        - in: path
+          name: stockItemId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewStockItem"
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags: ["Stock Item"]
+      summary: Delete Stock Item
+      description: Delete Stock Item
+      operationId: DeleteStockItem
+      parameters:
+        - in: path
+          name: stockItemId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  responses:
+    Created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            required:
+              - id
+            properties:
+              id:
+                type: string
+                format: uuid
+                x-oapi-codegen-extra-tags:
+                  validate: required
+    OK:
+      description: OK
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BadRequestResponse"
+    NotFound:
+      description: Not Found
+    InternalServerError:
+      description: Internal Server Error
+  schemas:
+    BadRequestResponse:
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    NewStockItem:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maximum: 100
+          x-oapi-codegen-extra-tags:
+            validate: required,lt=100

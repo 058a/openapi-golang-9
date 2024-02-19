@@ -1,0 +1,14 @@
+mode: set
+openapi/internal/domain/stock/item/aggregate.go:11.48,17.2 1 1
+openapi/internal/domain/stock/item/aggregate.go:19.66,25.2 1 1
+openapi/internal/domain/stock/item/aggregate.go:27.37,29.2 1 1
+openapi/internal/domain/stock/item/aggregate.go:31.30,33.2 1 1
+openapi/internal/domain/stock/item/entity.go:18.37,19.19 1 1
+openapi/internal/domain/stock/item/entity.go:19.19,21.3 1 1
+openapi/internal/domain/stock/item/entity.go:22.2,22.19 1 1
+openapi/internal/domain/stock/item/entity.go:25.30,27.2 1 1
+openapi/internal/domain/stock/item/entity.go:29.29,31.2 1 1
+openapi/internal/domain/stock/item/value.go:17.38,18.13 1 1
+openapi/internal/domain/stock/item/value.go:18.13,20.3 1 1
+openapi/internal/domain/stock/item/value.go:21.2,21.21 1 1
+openapi/internal/domain/stock/item/value.go:24.31,26.2 1 1

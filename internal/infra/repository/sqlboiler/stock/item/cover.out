@@ -1,0 +1,21 @@
+mode: set
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:21.58,22.15 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:22.15,24.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:25.2,27.8 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:30.52,45.16 3 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:45.16,47.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:49.2,49.12 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:52.63,54.16 2 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:54.16,57.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:59.2,59.18 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:59.18,62.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:64.2,65.16 2 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:65.16,68.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:70.2,72.15 2 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:75.53,77.40 2 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:77.40,80.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:82.2,82.26 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:82.26,85.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:87.2,87.18 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:87.18,90.3 1 1
+openapi/internal/infra/repository/sqlboiler/stock/item/repository.go:93.2,93.18 1 1
