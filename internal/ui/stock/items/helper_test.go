@@ -13,7 +13,9 @@ import (
 	infra "openapi/internal/infra/repository/sqlboiler/stock/item"
 	"openapi/internal/infra/validator"
 	"openapi/internal/ui/stock/items"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
@@ -50,6 +52,26 @@ func NewRequest[I any](method string, path string, reqBody *I) *Request {
 	reqBodyJson, _ := json.Marshal(reqBody)
 	req := httptest.NewRequest(method, path, bytes.NewBuffer(reqBodyJson))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+
+	type jwtCustomClaims struct {
+		UserId string `json:"user_id"`
+		jwt.RegisteredClaims
+	}
+
+	claims := &jwtCustomClaims{
+		uuid.New().String(),
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Second * 60)),
+		},
+	}
+
+	// Create token with claims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Generate encoded token and send it as response.
+	signedToken, _ := token.SignedString([]byte(env.GetJwtSecret()))
+
+	req.Header.Set(echo.HeaderAuthorization, fmt.Sprintf("Bearer %s", signedToken))
 
 	rec := httptest.NewRecorder()
 

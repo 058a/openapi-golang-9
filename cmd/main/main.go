@@ -17,12 +17,12 @@ import (
 	locations "openapi/internal/ui/stock/locations"
 )
 
-type jwtCustomClaims struct {
-	UserId string `json:"user_id"`
-	jwt.RegisteredClaims
-}
-
 func login(c echo.Context) error {
+	type jwtCustomClaims struct {
+		UserId string `json:"user_id"`
+		jwt.RegisteredClaims
+	}
+
 	// Set custom claims
 	claims := &jwtCustomClaims{
 		uuid.New().String(),
