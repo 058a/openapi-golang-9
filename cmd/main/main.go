@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	hello "openapi/internal/ui/hello"
+	items "openapi/internal/ui/stock/items"
 	locations "openapi/internal/ui/stock/locations"
 )
 
@@ -20,6 +21,7 @@ func main() {
 
 	hello.RegisterHandlers(e)
 	locations.RegisterHandlers(e)
+	items.RegisterHandlers(e)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

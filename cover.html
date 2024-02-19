@@ -85,13 +85,17 @@
 				
 				<option value="file14">openapi/internal/ui/hello/hello.go (0.0%)</option>
 				
-				<option value="file15">openapi/internal/ui/stock/locations/delete.go (66.7%)</option>
+				<option value="file15">openapi/internal/ui/stock/items/items.go (100.0%)</option>
 				
-				<option value="file16">openapi/internal/ui/stock/locations/locations.go (0.0%)</option>
+				<option value="file16">openapi/internal/ui/stock/items/post.go (72.7%)</option>
 				
-				<option value="file17">openapi/internal/ui/stock/locations/post.go (73.9%)</option>
+				<option value="file17">openapi/internal/ui/stock/locations/delete.go (66.7%)</option>
 				
-				<option value="file18">openapi/internal/ui/stock/locations/put.go (75.0%)</option>
+				<option value="file18">openapi/internal/ui/stock/locations/locations.go (0.0%)</option>
+				
+				<option value="file19">openapi/internal/ui/stock/locations/post.go (73.9%)</option>
+				
+				<option value="file20">openapi/internal/ui/stock/locations/put.go (75.0%)</option>
 				
 				</select>
 			</div>
@@ -760,7 +764,88 @@ func RegisterHandlers(e *echo.Echo) <span class="cov0" title="0">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file15" style="display: none">package locations
+		<pre class="file" id="file15" style="display: none">package items
+
+import (
+        oapicodegen "openapi/internal/infra/oapicodegen/stock/item"
+
+        domain "openapi/internal/domain/stock/item"
+
+        "github.com/labstack/echo/v4"
+)
+
+type Handler struct {
+        oapicodegen.ServerInterface
+        Repository domain.IRepository
+}
+
+func RegisterHandlers(e *echo.Echo) <span class="cov8" title="1">{
+        oapicodegen.RegisterHandlers(e, &amp;Handler{})
+}</span>
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package items
+
+import (
+        "net/http"
+
+        "github.com/google/uuid"
+        "github.com/labstack/echo/v4"
+
+        app "openapi/internal/app/stock/item"
+        "openapi/internal/infra/database"
+        oapicodegen "openapi/internal/infra/oapicodegen/stock/item"
+        infra "openapi/internal/infra/repository/sqlboiler/stock/item"
+)
+
+// PostStockItem is a function that handles the HTTP POST request for creating a new stock item.
+func (h *Handler) PostStockItem(ctx echo.Context) error <span class="cov8" title="1">{
+        // Precondition
+        db, err := database.Open()
+        if err != nil </span><span class="cov0" title="0">{
+                return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+        }</span>
+        <span class="cov8" title="1">defer db.Close()
+
+        repo, err := infra.NewRepository(db)
+        if err != nil </span><span class="cov0" title="0">{
+                return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+        }</span>
+
+        // Binding
+        <span class="cov8" title="1">req := &amp;oapicodegen.PostStockItemJSONRequestBody{}
+        if err := ctx.Bind(&amp;req); err != nil </span><span class="cov0" title="0">{
+                return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+        }</span>
+
+        // Validation
+        <span class="cov8" title="1">if err := ctx.Validate(req); err != nil </span><span class="cov8" title="1">{
+                return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+        }</span>
+
+        <span class="cov8" title="1">reqDto, err := app.NewCreateRequest(uuid.New(), req.Name)
+        if err != nil </span><span class="cov0" title="0">{
+                return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+        }</span>
+
+        // Main Process
+        <span class="cov8" title="1">resDto, err := app.Create(reqDto, repo)
+        if err != nil </span><span class="cov0" title="0">{
+                return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+        }</span>
+
+        <span class="cov8" title="1">res := &amp;oapicodegen.Created{Id: resDto.Id}
+
+        // Postcondition
+        if err := ctx.Validate(res); err != nil </span><span class="cov0" title="0">{
+                return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+        }</span>
+
+        <span class="cov8" title="1">return ctx.JSON(http.StatusCreated, res)</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package locations
 
 import (
         "net/http"
@@ -812,7 +897,7 @@ func (h *Handler) DeleteStockLocation(ctx echo.Context, stockLocationId openapi_
 }
 </pre>
 		
-		<pre class="file" id="file16" style="display: none">package locations
+		<pre class="file" id="file18" style="display: none">package locations
 
 import (
         oapicodegen "openapi/internal/infra/oapicodegen/stock/location"
@@ -832,7 +917,7 @@ func RegisterHandlers(e *echo.Echo) <span class="cov0" title="0">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file17" style="display: none">package locations
+		<pre class="file" id="file19" style="display: none">package locations
 
 import (
         "net/http"
@@ -894,7 +979,7 @@ func (h *Handler) PostStockLocation(ctx echo.Context) error <span class="cov8" t
 }
 </pre>
 		
-		<pre class="file" id="file18" style="display: none">package locations
+		<pre class="file" id="file20" style="display: none">package locations
 
 import (
         "net/http"
