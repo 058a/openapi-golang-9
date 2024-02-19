@@ -18,7 +18,7 @@ import (
 )
 
 type jwtCustomClaims struct {
-	Id string `json:"id"`
+	UserId string `json:"user_id"`
 	jwt.RegisteredClaims
 }
 
@@ -27,7 +27,7 @@ func login(c echo.Context) error {
 	claims := &jwtCustomClaims{
 		uuid.New().String(),
 		jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Second * 60)),
 		},
 	}
 

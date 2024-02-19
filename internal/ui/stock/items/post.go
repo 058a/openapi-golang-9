@@ -31,14 +31,11 @@ func (h *Handler) PostStockItem(ctx echo.Context) error {
 	}
 
 	if !accessToken.Valid {
-		claims := accessToken.Claims.(jwt.MapClaims)
-		name := claims["name"].(string)
-		admin := claims["admin"].(bool)
-		return ctx.JSON(http.StatusOK, echo.Map{
-			"name":  name,
-			"admin": admin,
-		})
+		return echo.NewHTTPError(http.StatusUnauthorized, "invalid token")
 	}
+
+	//	claims := accessToken.Claims.(jwt.MapClaims)
+	//	userId := claims["user_id"].(uuid.UUID)
 
 	// Precondition
 	db, err := database.Open()
