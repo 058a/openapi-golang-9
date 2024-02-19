@@ -2,10 +2,12 @@ package main
 
 import (
 	"net/http"
+	"openapi/internal/infra/env"
 	"openapi/internal/infra/validator"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,24 +18,14 @@ import (
 )
 
 type jwtCustomClaims struct {
-	Name  string `json:"name"`
-	Admin bool   `json:"admin"`
+	Id string `json:"id"`
 	jwt.RegisteredClaims
 }
 
 func login(c echo.Context) error {
-	// username := c.FormValue("username")
-	// password := c.FormValue("password")
-
-	// // Throws unauthorized error
-	// if username != "jon" || password != "shhh!" {
-	// 	return echo.ErrUnauthorized
-	// }
-
 	// Set custom claims
 	claims := &jwtCustomClaims{
-		"Jon Snow",
-		true,
+		uuid.New().String(),
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
 		},
@@ -43,15 +35,13 @@ func login(c echo.Context) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte("secret"))
+	signedToken, err := token.SignedString([]byte(env.GetJwtSecret()))
 	if err != nil {
 		return err
 	}
 
-	c.Response().Header().Set(echo.HeaderAuthorization, "Bearer "+t)
-	return c.JSON(http.StatusOK, echo.Map{
-		"token": t,
-	})
+	c.Response().Header().Set(echo.HeaderAuthorization, "Bearer "+signedToken)
+	return c.JSON(http.StatusOK, "")
 }
 
 func main() {
@@ -67,7 +57,9 @@ func main() {
 	items.RegisterHandlers(e)
 
 	e.POST("/login", login)
-	e.Use(echojwt.JWT([]byte("secret")))
+
+	r := e.Group("/stock")
+	r.Use(echojwt.JWT([]byte(env.GetJwtSecret())))
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
